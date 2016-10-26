@@ -1,0 +1,54 @@
+body {
+	padding-top:0rem;
+	padding-bottom:4rem;
+}
+.header {
+	padding-bottom:2rem;
+	line-height:8rem;
+	padding-bottom:0 !important;
+	text-align:center;
+	font-size:4rem;
+	line-height:10rem;
+	font-style: italic;
+}
+
+.group {
+	padding:2rem 2rem 0 2rem;
+	margin-bottom:8rem;
+	background:#ECEFF1;
+	overflow:auto; /* fix collapsing margins*/
+}
+
+.group pre code {
+	background:#fafafa;
+}
+
+#font_gallery_header {
+	background:#000;
+	color:#fff;
+	padding: 1.5rem 1rem;
+	margin-bottom:2rem;
+}
+
+#font_name {
+	margin-bottom:0 !important;
+}
+
+#font_foundry {
+	font-family: monospace;
+	font-size:1.75rem;
+}
+
+.subfont_header {
+	border-left: 2px #000 solid;
+	background:#fff;
+	padding: 1.5rem 1rem;
+	margin-bottom:2rem;
+}
+.subfont_header a{
+	font-size:6rem;
+	color:#000;
+	font-style:normal;
+	display:block;
+	width:100%;
+}

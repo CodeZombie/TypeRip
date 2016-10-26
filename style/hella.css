@@ -1,0 +1,49 @@
+.grid {
+	width:100%;
+	padding: 0 32px;
+	max-width:960px;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+.row:after, .grid:after{
+	clear:both;
+	content:"";
+	display:table;
+}
+.column{
+	width:100%;
+	float:left;
+	box-sizing:border-box;
+}
+@media only all{
+    .column{margin-right:2%;}
+    .column:last-child{margin-right: 0;}
+    .column.one{width:6.5%;}
+    .column.two{width: 15%;} 
+    .column.three{width: 23.5%;}
+    .column.four{width: 32%;}
+    .column.five{width: 40.5%;}
+    .column.six{width: 49%;}
+    .column.seven{width: 57.5%;}
+    .column.eight{width: 66%;}
+    .column.nine{width: 74.5%;}
+    .column.ten{width:83%;}
+    .column.eleven{width:91.5%}
+    .column.offset-one{margin-left:8.5%;}
+    .column.offset-two{margin-left:17%;}
+    .column.offset-three{margin-left:25.5%;} 
+    .column.offset-four{margin-left:34%;}
+    .column.offset-five{margin-left:42.5%;}
+    .column.offset-six{margin-left:51%;}
+    .column.offset-seven{margin-left:59.5%;}
+    .column.offset-eight{margin-left:68%;}
+    .column.offset-nine{margin-left:76.5%;}
+    .column.offset-ten{margin-left:85%;}
+    .column.offset-eleven{margin-left:93.5%;}
+} 
+@media (max-width: 480px){
+	.column:not(.non-responsive){ 
+		width:100%;
+		margin-right:0;
+		margin-left:0;
+}	}
