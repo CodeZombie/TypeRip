@@ -28,7 +28,7 @@ function ripFonts() {
 	document.getElementById('font_gallery').innerHTML = ""
 	
 	aja()
-		.url(document.getElementById('input_url').value)
+		.url("https://crossorigin.me/" + document.getElementById('input_url').value)
 		.type('html')
 		.on('success', function(data){
 			//search the data for " {"family":{"slug":" ", this will be the start of the json we need.
