@@ -8,4 +8,4 @@ Web-based Adobe TypeKit font ripper
   3. That's it.
 
 ###License
-All code, except ajax.min.js, which belongs to Bertrand Chevrier (https://github.com/krampstudio/aja.js), is released under the WTFPL.
+index.html and typerip.js are released under the WTFPL (http://www.wtfpl.net/)
