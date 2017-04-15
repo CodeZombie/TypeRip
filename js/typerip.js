@@ -93,7 +93,7 @@ function ripFonts() {
 		document.getElementById('font_gallery').innerHTML = "<div class=\"row\"><div class=\"column\" id=\"font_gallery_header\"><span id=\"font_foundry\">" + json.family.foundry.name + "/</span><h2 id=\"font_name\">" + json.family.name + "</h2></div></div>"
 		
 		//grab global font family info
-		var font_primer = json.textSamplePrimers.en;
+		var font_primer = json.textSampleData.textSamplePrimers.en;
 		
 		//populate subfonts
 		for (i = 0; i < json.family.total_font_count; i++) {
