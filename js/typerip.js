@@ -121,7 +121,7 @@ function ripFonts() {
 	}
 
 	
-	ajaxRequest.open("GET", "https://crossorigin.me/" + document.getElementById('input_url').value, true);
+	ajaxRequest.open("GET", "https://cors-anywhere.herokuapp.com/" + document.getElementById('input_url').value, true);
 	ajaxRequest.responseType = "text"
 	ajaxRequest.send();
 }
