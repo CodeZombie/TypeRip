@@ -1,37 +1,90 @@
-<!DOCTYPE html>
+<!doctype <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="style/hella.css">
-		<link rel="stylesheet" type="text/css" href="style/hella-style.css">
-		<link rel="stylesheet" type="text/css" href="style/style.css">
-		<script type="text/javascript" src="js/typerip.js"></script>
-		<title>Cazum's TypeRip</title>
-		<style>
-		</style>
-	</head>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TypeRip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/hella.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="js/typerip.js"></script>
+    <link rel="icon" type="image/png" href="res/favicon.png">
+</head>
 <body>
-	<div class="grid">
-		<div class="row">
-			<div class="column header">
-				<span>TypeRip</span>
-			</div>
-			<div class="column ten">
-				
-			</div>
-		</div>
-		<div class="row">
-			<div class="column eight">
-				<input class="full-width" type="text" placeholder="Full Adobe Typekit font family url (https://typekit.com/fonts/jaf-domus)" id="input_url" onkeypress="urlEntryKeypress(event);"></input>
-			</div>
-			<div class="column four">
-				<a href="javascript:ripFonts();" class="button full-width" id="b3">rip fonts</a>
-			</div>
-		</div>
-		<div id="font_gallery">
-		<p>TypeRip - The Adobe TypeKit Font Ripper.</p>
-		<p>Enter an Adobe TypeKit font family URL, click 'rip fonts', then click on the font(s) you want to download.</p>
-		</div>
-	</div>
-</div>
+    <div id="app">
+        <div id="header_container">
+            <div class="grid">
+                <div class="row">
+                    <div id="header_text" class="column">
+                        <span>TypeRip</span>
+                    </div>
+                </div>
+                <div id="header_input" class="row">
+                    <div class="column seven offset-one no-margin">
+                        <input ref="url_input" id="url_input" v-model="url_input" placeholder="Full Adobe TypeKit font family URL">
+                    </div>
+                    <div class="column three no-margin">
+                        <a id="url_button" v-on:click="searchButtonOnClick" v-on:mouseover="$refs.url_input.style.borderColor = '#073347';" v-on:mouseout="$refs.url_input.style.borderColor = '#127cac';" class="button" href="#" >rip fonts</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div id="content_container">
+
+                <div v-if="message.visible" class="content_box">
+                    <div class="subframe">
+                        <p>{{ message.text}}</p>
+                    </div>
+                </div>
+
+                <div v-for="font in fonts" class="content_box">
+                    <a href="javascript:void(0);" v-on:click="font.expanded = true;" v-bind:style="{ 'font-family': font.name}" >
+                        <h1 v-if="font.expanded == false">{{ font.name }}</h1>
+                    </a>
+                    <div v-if="font.expanded" class="subframe">
+                        <div class="row">
+                            <div class="column" v-bind:style="{ 'font-family': font.name}">
+                                <h1 contenteditable="true">{{ font.name }}</h1>
+                                <p contenteditable="true">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, rem itaque! Est illum quia ea corporis doloribus facilis optio sunt, reiciendis molestias, aspernatur minus mollitia placeat nulla necessitatibus soluta perferendis.</p>
+                            </div>
+                            <div class="column six large-only" v-bind:style="{ 'font-family': font.name}">
+                                <hr/>
+                                <p class="largelist">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 ! " # $ % & ' ( ) * + , - . /</p>
+                            </div>
+                            <div class="column six large-only" v-bind:style="{ 'font-family': font.name}">
+                                <hr/>
+                                <p class="fw-light">Light font weight</p>
+                                <p class="fw-light"><em>Light and italic</em></p>
+                                <hr/>
+                                <p>Normal font weight</p>
+                                <p><em>Normal and italic</em></p>
+                                <hr/>
+                                <p class="fw-bold ">Bold font weight</p>
+                                <p class="fw-bold "><em>Bold and italic</em></p>
+                                <hr/>
+                                <p class="fw-bolder">Boldest font weight</p>
+                                <p class="fw-bolder"><em>Boldest and italic</em></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column three">
+                                    <a href="javascript:void(0);" v-on:click="fontDownloadButtonOnClick(font.url, font.name);" class="button">download woff2 </a>
+                                </div>
+                                <div class="column three">
+                                    <a v-bind:href="'https://typekit.com/foundries/' + font.foundry_slug" target="_blank" class="button">visit foundry</a>
+                                </div>
+                            <div class="column two offset-four">
+                                <a  href="javascript:void(0);" v-on:click="font.expanded = false;" class="button grey">close</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/view.js"></script>
+</html>

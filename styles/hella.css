@@ -16,19 +16,30 @@
 	box-sizing:border-box;
 }
 @media only all{
-    .column{margin-right:2%;}
-    .column:last-child{margin-right: 0;}
+    .column:not(.no-margin){margin-right:2%;}
+	.column:last-child{margin-right: 0;}
     .column.one{width:6.5%;}
-    .column.two{width: 15%;} 
+	.column.one.no-margin:not(:last-child){width:8.5%;}
+    .column.two{width: 15%;}
+	.column.two.no-margin:not(:last-child){width:17%;}
     .column.three{width: 23.5%;}
+	.column.three.no-margin:not(:last-child){width:25.5%}
     .column.four{width: 32%;}
+	.column.four.no-margin:not(:last-child){width:34%}
     .column.five{width: 40.5%;}
+	.column.five.no-margin:not(:last-child){width:42.5%}
     .column.six{width: 49%;}
+	.column.six.no-margin:not(:last-child){width:51%}
     .column.seven{width: 57.5%;}
+	.column.seven.no-margin:not(:last-child){width:59.5%}
     .column.eight{width: 66%;}
+	.column.eight.no-margin:not(:last-child){width:68%}
     .column.nine{width: 74.5%;}
+	.column.nine.no-margin:not(:last-child){width:76.5%}
     .column.ten{width:83%;}
+	.column.ten.no-margin:not(:last-child){width:85%}
     .column.eleven{width:91.5%}
+	.column.eleven.no-margin:not(:last-child){width:93.5%}
     .column.offset-one{margin-left:8.5%;}
     .column.offset-two{margin-left:17%;}
     .column.offset-three{margin-left:25.5%;} 
@@ -43,7 +54,16 @@
 } 
 @media (max-width: 480px){
 	.column:not(.non-responsive){ 
-		width:100%;
+		width:100% !important;
 		margin-right:0;
 		margin-left:0;
-}	}
+	}
+	.large-only {
+		display:none;
+	}
+}
+@media (min-width: 480px){
+	.small-only {
+		display:none;
+	}
+}
