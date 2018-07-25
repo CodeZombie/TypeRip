@@ -35,7 +35,7 @@
 
                 <div v-if="message.visible" class="content_box">
                     <div class="subframe">
-                        <p>{{ message.text}}</p>
+                        <p v-html="message.text"></p>
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@
                         </div>
                         <div class="row">
                             <div class="column three">
-                                    <a href="javascript:void(0);" v-on:click="fontDownloadButtonOnClick(font.url, font.name);" class="button">download woff2 </a>
+                                    <a href="javascript:void(0);" v-on:click="fontDownloadButtonOnClick(font.url, font.name, font.type);" class="button">download</a>
                                 </div>
                                 <div class="column three">
                                     <a v-bind:href="'https://typekit.com/foundries/' + font.foundry_slug" target="_blank" class="button">visit foundry</a>
