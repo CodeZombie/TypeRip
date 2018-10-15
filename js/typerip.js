@@ -1,3 +1,5 @@
+var fuck;
+
 function ripFonts(url_, vue_, callback_) {
 	/*
 	AJAX requests the font family page from TypeKit through a CORS proxy
@@ -10,38 +12,46 @@ function ripFonts(url_, vue_, callback_) {
 	
 	ajaxRequest.onload = function() {
 
-        var output = {foundryname: "", familyname: "", fonts: []};
+        var output = {foundryname: "", familyname: "", defaultlanguage: "en", sampletext: [], fonts: []};
 		//success
 		//search the ajaxRequest.responseText for " {"family":{"slug":" ", this will be the start of the json we need.
 		
 		var json_start = ajaxRequest.responseText.search('{"family":{"slug":"'); //search for the first part of the json
 		if(json_start == -1) {
-            callback_({error: true, message: "Catastrophic Failure: Unexpected response. Check URL."}, vue_);
+            callback_({error: true, message: "Catastrophic Failure 001:  Unexpected response. Check URL."}, vue_);
             return;
         }
 		
 		var data = ajaxRequest.responseText.substring(json_start);//cut off everything before this point
 		
-		var json_end = data.search('    </script>'); //find the stuff directly after the json, and ues this as the anchor
+		var json_end = data.search('</script>'); //find the stuff directly after the json, and ues this as the anchor
 		if(json_end == -1) {
-            callback_({error: true, message: "Catastrophic Failure: Unexpected response. Check URL."}, vue_);
+            callback_({error: true, message: "Catastrophic Failure 002: Unexpected response. Check URL."}, vue_);
             return;
 		}
 		
 		try {
 			json = JSON.parse(data.substring(0, json_end)); //extract the json :)
 		}catch(e){
-            callback_({error: true, message: "Catastrophic Failure: Unexpected response. Check URL."}, vue_);
+            callback_({error: true, message: "Catastrophic Failure 003: Unexpected response. Check URL."}, vue_);
             return;		
 		}
 		
 		console.log(json);
+
+		output.defaultlanguage = json.family.display_font.default_language; //find the default language of this font
+		output.sampletext = json.textSampleData.textSamples[output.defaultlanguage]; //grab the sample text data for this language
         
         output.foundryname = json.family.foundry.name;
         output.familyname = json.family.name
 		
 		//grab global font family info...
-		var font_primer = json.textSampleData.textSamplePrimers.en;
+		//console.log(json.textSampleData.textSamplePrimers);
+		//fuck = json.textSampleData.textSamplePrimers;
+		
+		//var font_primer = json.textSampleData.textSamplePrimers.en;
+		var font_primer = json.textSampleData.textSamplePrimers[Object.keys(json.textSampleData.textSamplePrimers)[0]]; //detect and set the correct primer.
+		
 		//populate subfonts
 		for (i = 0; i < json.family.total_font_count; i++) {
 			//grab subfont info...
@@ -54,7 +64,7 @@ function ripFonts(url_, vue_, callback_) {
 	}
 
 	ajaxRequest.onerror = function() {
-        callback_({error: true, message: "Catastrophic Failure: Unexpected response. Check URL."}, vue_);
+        callback_({error: true, message: "Catastrophic Failure 004: Unexpected response. Check URL."}, vue_);
         return;
 	}
 

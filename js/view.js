@@ -23,8 +23,7 @@ var x = new Vue({
                         var font_css = document.createElement('style');
                         font_css.appendChild(document.createTextNode("@font-face { font-family: '" + font.name + "';\src: url(" + font.url + ");}"));
                         document.head.appendChild(font_css);
-
-                        v_.fonts.push({name: font.name, url: font.url, foundry_slug: font.foundry_slug, expanded: false, type: font.type});
+                        v_.fonts.push({name: font.name, url: font.url, foundry_slug: font.foundry_slug, expanded: false, type: font.type, sampletext: ret_.data.sampletext});
                     });
                 }
             });

@@ -90,3 +90,15 @@ input {
 	color:#fff;
 	border-color: #073347;
 }
+
+.fw-light {
+    font-weight: 100;
+}
+
+.fw-bold {
+    font-weight: 700;
+}
+
+.fw-bolder {
+    font-weight: 900;
+}
