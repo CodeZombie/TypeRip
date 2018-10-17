@@ -1,5 +1,5 @@
 # TypeRip
-Web-based Adobe TypeKit font ripper (Updated June 5th, 2018)
+Web-based Adobe TypeKit font ripper (Updated Oct 16th, 2018)
 ## [Get It Here](http://codezombie.github.io/TypeRip/)
 
 ### How to use it
