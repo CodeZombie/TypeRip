@@ -1,5 +1,3 @@
-var fuck;
-
 function ripFonts(url_, vue_, callback_) {
 	/*
 	AJAX requests the font family page from TypeKit through a CORS proxy
@@ -33,8 +31,8 @@ function ripFonts(url_, vue_, callback_) {
 		try {
 			json = JSON.parse(data.substring(0, json_end)); //extract the json :)
 		}catch(e){
-            callback_({error: true, message: "Catastrophic Failure 003: Unexpected response. Check URL."}, vue_);
-            return;		
+            		callback_({error: true, message: "Catastrophic Failure 003: Unexpected response. Check URL."}, vue_);
+            		return;		
 		}
 		
 		console.log(json);
@@ -47,7 +45,6 @@ function ripFonts(url_, vue_, callback_) {
 		
 		//grab global font family info...
 		//console.log(json.textSampleData.textSamplePrimers);
-		//fuck = json.textSampleData.textSamplePrimers;
 		
 		//var font_primer = json.textSampleData.textSamplePrimers.en;
 		var font_primer = json.textSampleData.textSamplePrimers[Object.keys(json.textSampleData.textSamplePrimers)[0]]; //detect and set the correct primer.
