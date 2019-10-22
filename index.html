@@ -34,7 +34,7 @@
                             </template>
                             <template v-if="fontIsActive">
                                 <h3>{{fontFamily.name}}</h3>
-                                <p class="subtext">
+                                <p class="subtext" v-if="fontFamily.designers.length > 0">
                                     by 
                                     <span v-for="(designer, key) in fontFamily.designers"><a v-bind:href="designer.url">{{designer.name}}</a><span v-if="key < fontFamily.designers.length -1">, </span></span>
                                 </p>
