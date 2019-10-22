@@ -1,99 +1,151 @@
-function ripFonts(url_, vue_, callback_) {
-	/*
-	AJAX requests the font family page from TypeKit through a CORS proxy
-	extracts the JSON in the page by searching for anchors
-	generates a user-viewable gallery for selecting sub-fonts:
-		generates a header, with the font foundry, and name of the font family
-		generates a clickable download link for each sub-font using data from the JSON
-	*/	
-	var ajaxRequest = new XMLHttpRequest();
-	
-	ajaxRequest.onload = function() {
+var TypeRip = {
+    getFontFamily: function(url_, callback_) {
+        axios.get("https://cors-anywhere.herokuapp.com/" + url_)
+        .then(function (response) {
+            var fontFamily = {
+                name: "",
+                designers: [],
+                fonts: []
+            }
 
-        var output = {foundryname: "", familyname: "", defaultlanguage: "en", sampletext: [], fonts: []};
-		//success
-		//search the ajaxRequest.responseText for " {"family":{"slug":" ", this will be the start of the json we need.
-		
-		var json_start = ajaxRequest.responseText.search('{"family":{"slug":"'); //search for the first part of the json
-		if(json_start == -1) {
-            callback_({error: true, message: "Catastrophic Failure 001:  Unexpected response. Check URL."}, vue_);
-            return;
-        }
-		
-		var data = ajaxRequest.responseText.substring(json_start);//cut off everything before this point
-		
-		var json_end = data.search('</script>'); //find the stuff directly after the json, and ues this as the anchor
-		if(json_end == -1) {
-            callback_({error: true, message: "Catastrophic Failure 002: Unexpected response. Check URL."}, vue_);
-            return;
-		}
-		
-		try {
-			json = JSON.parse(data.substring(0, json_end)); //extract the json :)
-		}catch(e){
-            		callback_({error: true, message: "Catastrophic Failure 003: Unexpected response. Check URL."}, vue_);
-            		return;		
-		}
-		
-		console.log(json);
+            //search for the first part of the json
+            var json_start = response.data.search('{"family":{"slug":"'); 
+		    if(json_start == -1) {
+                callback_("error", "Catastrophic Failure 001:  Unexpected response. Check URL.")
+                return
+            }
 
-		output.defaultlanguage = json.family.display_font.default_language; //find the default language of this font
-		output.sampletext = json.textSampleData.textSamples[output.defaultlanguage]; //grab the sample text data for this language
-        
-        output.foundryname = json.family.foundry.name;
-        output.familyname = json.family.name
-		
-		//grab global font family info...
-		//console.log(json.textSampleData.textSamplePrimers);
-		
-		//var font_primer = json.textSampleData.textSamplePrimers.en;
-		var font_primer = json.textSampleData.textSamplePrimers[Object.keys(json.textSampleData.textSamplePrimers)[0]]; //detect and set the correct primer.
-		
-		//populate subfonts
-		for (i = 0; i < json.family.total_font_count; i++) {
-			//grab subfont info...
-			var subfont_web_id = json.family.fonts[i].family.web_id;
-			var subfont_fvd = json.family.fonts[i].font.web.fvd;
-			var font_url = "https://use.typekit.net/pf/tk/" + subfont_web_id + "/" + subfont_fvd + "/m?primer=" + font_primer +  "&v=2&ec_token=3bb2a6e53c9684ffdc9a9bf71d5b2a620e68abb153386c46ebe547292f11a96176a59ec4f0c7aacfef2663c08018dc100eedf850c284fb72392ba910777487b32ba21c08cc8c33d00bda49e7e2cc90baff01835518dde43e2e8d5ebf7b76545fc2687ab10bc2b0911a141f3cf7f04f3cac438a135f";
-            output.fonts.push({url: font_url, name: json.family.fonts[i].name , foundry_name: json.family.foundry.name, foundry_slug: json.family.foundry.slug, type: json.family.fonts[i].font.web.type});
-        }		
-        callback_({data: output, error: false}, vue_);
-	}
+            //cut off everything before this point
+            var data = response.data.substring(json_start)
 
-	ajaxRequest.onerror = function() {
-        callback_({error: true, message: "Catastrophic Failure 004: Unexpected response. Check URL."}, vue_);
-        return;
-	}
+            //find the stuff directly after the json, and ues this as the anchor    
+            var json_end = data.search('</script>') 
+            if(json_end == -1) {
+                callback_("error", "Catastrophic Failure 002: Unexpected response. Check URL.")
+                return
+            }
 
-	ajaxRequest.open("GET", "https://cors-anywhere.herokuapp.com/" + url_, true);
-	ajaxRequest.responseType = "text"
-	ajaxRequest.send();
-}
+            //parse the json blob
+            var json;
+            try {
+                json = JSON.parse(data.substring(0, json_end)); 
+            }catch(e){
+                callback_("error",  "Catastrophic Failure 003: Unexpected response. Check URL.")
+                return
+            }
 
-function downloadFont(url_, fontName_, type_) {
-	/*
-	AJAX requests the font file from TypeKit.
-	creates an "a" dom element, setting the href attribute to an object representing the entire font as a blob.
-	virtually "clicks" on this "a" element, triggering the download.
-	removes the a element.
-	*/
-	var ajaxRequest = new XMLHttpRequest();
-	
-	ajaxRequest.onload = function() {
-		var element = window.document.createElement('a');
-		element.href = window.URL.createObjectURL(ajaxRequest.response);
-		element.setAttribute('download', fontName_ + "." + type_);
-		element.style.display = 'none';
-		document.body.appendChild(element)
-		element.click();
-		document.body.removeChild(element)
-	}
-	
-	ajaxRequest.onerror = function() {
-		// fill this in.
-	}
+            //find the default language of this font
+            fontFamily.defaultLanguage = json.family.display_font.default_language;
 
-	ajaxRequest.open("GET", url_, true);
-	ajaxRequest.responseType = "blob"
-	ajaxRequest.send();
+            //grab the sample text data for this language
+            fontFamily.sampleText = json.textSampleData.textSamples[fontFamily.defaultLanguage]["list"]; 
+            
+            //family/foundry names
+            fontFamily.foundryName = json.family.foundry.name;
+            fontFamily.name = json.family.name
+            fontFamily.slug = json.family.slug
+
+            //designers
+            for(var i = 0; i < json.family.designers.length; i++) {
+                var designer = {}
+                designer["name"] = json.family.designers[i].name
+
+                if(json.designer_info[json.family.designers[i].slug] != null){
+                    designer["url"] = "https://fonts.adobe.com" + json.designer_info[json.family.designers[i].slug].url
+                }
+
+                fontFamily.designers.push(designer)
+            }
+
+            //The primer is used for creating the font download URL
+            var primer = json.textSampleData.textSamplePrimers[Object.keys(json.textSampleData.textSamplePrimers)[0]];
+
+            //populate subfonts
+            for (var i = 0; i < json.family.total_font_count; i++) {
+                fontFamily.fonts.push({
+                    url: "https://use.typekit.net/pf/tk/" + json.family.fonts[i].family.web_id + "/" + json.family.fonts[i].font.web.fvd + "/m?primer=" + primer +  "&v=2&ec_token=3bb2a6e53c9684ffdc9a9bf71d5b2a620e68abb153386c46ebe547292f11a96176a59ec4f0c7aacfef2663c08018dc100eedf850c284fb72392ba910777487b32ba21c08cc8c33d00bda49e7e2cc90baff01835518dde43e2e8d5ebf7b76545fc2687ab10bc2b0911a141f3cf7f04f3cac438a135f", 
+                    name: json.family.fonts[i].name,
+                    style: json.family.fonts[i].variation_name, 
+                    familyName: fontFamily.name
+                });
+            }	
+
+            callback_("success", fontFamily)
+        })
+        .catch(function (error) {
+            callback_("error", error.message)
+        })
+    },
+
+    downloadFont: function(font_) {
+        opentype.load(font_.url, function(error_, fontData_) {
+            if (error_) {
+                return "Error: Font failed to load."
+            }else{
+                //Rebuild the glyph data structure. This repairs any encoding issues.
+                var rebuiltGlyphs = []
+
+                //for every glyph in the parsed font data:
+                for(var i = 0; i < fontData_.glyphs.length; i++) {
+                    //Create a structure to hold the new glyph data
+                    //populate it with some common fields:
+                    var glyphData = {
+                        name: fontData_.glyphs.glyphs[i].name,
+                        unicode: fontData_.glyphs.glyphs[i].unicode,
+                        path: fontData_.glyphs.glyphs[i].path
+                    }
+
+                    //Copy optional glyph fields, if they exist
+                    var optionalGlyphFields = ['advanceWidth', 'leftSideBearing']
+                    optionalGlyphFields.forEach(field => {
+                        if(fontData_.glyphs.glyphs[i][field] != null) {
+                            glyphData[field] = fontData_.glyphs.glyphs[i][field]
+                        }
+                    });
+
+                    //Rebuild the new glyph.
+                    var rebuiltGlyph = new opentype.Glyph(glyphData)
+
+                    //Set all fields with the value of zero. Zero-value fields must be set AFTER the constructor
+                    //  due to a bug in OpenType.js https://github.com/opentypejs/opentype.js/issues/375
+                    optionalGlyphFields.forEach(field => {
+                        if(fontData_.glyphs.glyphs[i][field] != null) {
+                            if(fontData_.glyphs.glyphs[i][field] == 0){
+                                rebuiltGlyph[field] = 0
+                            }
+                        }
+                    })
+                    
+                    //push the rebuilt glyph to an array.
+                    rebuiltGlyphs.push(rebuiltGlyph)
+                }
+                
+                //create a structure of font data with fields from the parsed font.
+                var newFontData = {
+                    familyName: font_.familyName,
+                    styleName: font_.style,
+                    glyphs: rebuiltGlyphs
+                }
+
+                //extract as much available data out of the existing font data and copy it over to the new font:
+                var optionalFontDataFields = ['defaultWidthX', 'nominalWidthX', 'unitsPerEm', 'ascender', 'descender' ]
+                optionalFontDataFields.forEach(field => {
+                    if(fontData_[field] != null) {
+                        newFontData[field] = fontData_[field]
+                    }
+                });
+
+                //rebuild and download the font.
+                var newFont = new opentype.Font(newFontData)
+                
+                try{
+                    newFont.download()
+                }catch(e){
+                    console.log("ERROR: Failed to rebuild/rename font. Downloading old version...")
+                    fontData_.download()
+                }
+                
+            }
+        })
+    }
 }

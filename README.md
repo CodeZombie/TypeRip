@@ -1,16 +1,20 @@
 # TypeRip
-Web-based Adobe TypeKit font ripper (Updated Oct 16th, 2018)
+The Adobe Font ripper. (Updated Oct 21st, 2019)
 ## [Get It Here](http://codezombie.github.io/TypeRip/)
 
 ### How to use it
-  1. Enter a [TypeKit](https://typekit.com/fonts/) font family url into the bar, and press enter or click 'rip fonts'
-  2. Click on the font to show an expanded preview and editable workspace for that font.
-  3. Click "download" to save the font to your disk.
-  4. You may need to use a separate tool to convert the font file in order to get your operating system to recognize it. [Transfonter.org](https://transfonter.org/) seems to do the job well.
-  4. That's it.
+  1. Enter an [Adobe Fonts](https://fonts.adobe.com/) family URL into the address bar, then press enter.
+  2. Browse the available fonts under this family, using the download button to save them to your machine.
+  3. That's it.
 
-![Screenshot #1](https://i.imgur.com/bREcJLB.png)
-![Screenshot #2](https://i.imgur.com/0rR1OuO.png)
+### Whats new?
+
+Oct 21, 2019:
+* Rewrote entire application from scratch
+* New, cleaner and simpler user interface
+* Fonts are automatically repaired and renamed correctly
+
+![Screenshot #1](https://i.imgur.com/cAtH5qR.png)
 
 ### License
 typerip.js is released under the WTFPL (http://www.wtfpl.net/)
