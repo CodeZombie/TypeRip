@@ -1,5 +1,5 @@
 # TypeRip
-The Adobe Font ripper. (Updated Oct 21st, 2019)
+The Adobe Font ripper. (Updated March 9th, 2020)
 ## [Get It Here](http://codezombie.github.io/TypeRip/)
 
 ### How to use it
