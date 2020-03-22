@@ -34,8 +34,8 @@ h6 { font-size: 2.5rem; }
     font-weight: 400;
 }
 
-header, .alertBox, .item {
-    margin-bottom:4rem;
+header, .alertBox, .item, footer {
+    margin-bottom: 3rem;
 
 }
 
@@ -160,3 +160,6 @@ header #url_input {
     cursor: pointer;
 }
 
+footer p, footer a, footer a:active{
+    color:#888;
+}
