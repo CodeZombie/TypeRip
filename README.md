@@ -1,5 +1,5 @@
 # TypeRip
-The Adobe Font ripper. (Updated March 9th, 2020)
+The Adobe Font ripper. (Updated March 22nd, 2020)
 ## [Get It Here](http://codezombie.github.io/TypeRip/)
 
 ### How to use it
@@ -8,11 +8,11 @@ The Adobe Font ripper. (Updated March 9th, 2020)
   3. That's it.
 
 ### Whats new?
-Oct 22, 2020:
+March 22, 2020:
 * Cosmetic fixes
 * Removed all references to "TypeKit", as Adobe has renamed the service to "Adobe Fonts"
 
-Oct 9, 2020:
+March 9, 2020:
 * Fixed a bug in OpenType.js that would fail to re-encode some fonts.
 
 Oct 21, 2019:
