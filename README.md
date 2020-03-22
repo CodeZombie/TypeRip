@@ -8,6 +8,12 @@ The Adobe Font ripper. (Updated March 9th, 2020)
   3. That's it.
 
 ### Whats new?
+Oct 22, 2020:
+* Cosmetic fixes
+* Removed all references to "TypeKit", as Adobe has renamed the service to "Adobe Fonts"
+
+Oct 9, 2020:
+* Fixed a bug in OpenType.js that would fail to re-encode some fonts.
 
 Oct 21, 2019:
 * Rewrote entire application from scratch
