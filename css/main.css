@@ -103,6 +103,12 @@ header #url_input {
     border-bottom: 1px solid #bbb;
 }
 
+.item {
+    display:flex;
+    flex-flow: column;
+    height:100%;
+}
+
 .item .upper {
     border: 1px solid #bbb;
     border-top-left-radius: .5rem;
@@ -110,6 +116,7 @@ header #url_input {
     border-bottom:none;
     padding:2rem;
     font-size: 3rem;
+    height:100%;
 }
 
 .item .lower {
