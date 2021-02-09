@@ -30,7 +30,8 @@
                         <div class="alertBox">
                             <template v-if="!fontIsActive">
                                 <h3>{{message.title}}</h3>
-                                <p class="subtext" v-html="message.text"></p>
+                                <p class="subtext" v-html="message.text"></p><br/>
+                                <p class="subtext">If you keep getting a <strong>403</strong> error, try visiting <a href="https://cors-anywhere.herokuapp.com/corsdemo">https://cors-anywhere.herokuapp.com/corsdemo</a> and clicking the <em>"Request temporary access to the demo server"</em> button. This should temporarily fix the problem.</p>
                             </template>
                             <template v-if="fontIsActive">
                                 <h3>{{fontFamily.name}}</h3>

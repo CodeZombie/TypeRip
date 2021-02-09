@@ -39,6 +39,10 @@ header, .alertBox, .item, footer {
 
 }
 
+em{
+    font-style: italic;
+}
+
 header {
     width:100%;
     display: flex;
