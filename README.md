@@ -6,6 +6,9 @@ The Adobe Font ripper. (Updated March 22nd, 2020)
   1. Enter an [Adobe Fonts](https://fonts.adobe.com/) family URL into the address bar, then press enter.
   2. Browse the available fonts under this family, using the download button to save them to your machine.
   3. That's it.
+ 
+### Terms
+* Do not use any downloaded fonts for anything other than testing purposes. Think of it like a try-before-you-buy system. This tool merely saves a copy of what Adobe makes publicly available through their website, but this does not give you the legal right to use the fonts as if you have purchased a license. If you want to publish any work using these fonts, you _must_ purchase a license through adobe.
 
 ### Whats new?
 March 22, 2020:
