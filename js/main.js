@@ -35,7 +35,7 @@ var typeRipVue = new Vue({
         },
         urlSubmitButtonPress: function() {
             this.showMessage("Loading...", "")
-            TypeRip.getFontFamily(this.urlInput, (responseType_, response_) => {
+            TypeRip.handleRequest(this.urlInput, (responseType_, response_) => {
                 if(responseType_ == "error"){
                     this.showMessage("Error", response_)
                 }else{

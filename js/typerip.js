@@ -1,4 +1,82 @@
 var TypeRip = {
+    handleRequest: function(url_, callback_){
+        if(url_.indexOf("fonts.adobe.com/collections") != -1){
+            this.getFontCollection(url_, callback_);
+        }else{
+            this.getFontFamily(url_, callback_);
+        }
+    },
+
+    getFontCollection: function(url_, callback_){
+        axios.get("https://api.allorigins.win/raw?url=" + url_)
+        .then(function (response) {
+            let fontCollection = {
+                name: "",
+                designers: [],
+                fonts: []
+            }
+
+            //search for the first part of the json
+            let json_start = response.data.search('{"fontpack":{"all_valid_slugs":'); 
+		    if(json_start == -1) {
+                callback_("error", "Catastrophic Failure 001:  Unexpected response. Check URL.")
+                return
+            }
+
+            //cut off everything before this point
+            let data = response.data.substring(json_start)
+
+            //find the stuff directly after the json, and use this as the anchor    
+            let json_end = data.search('</script>') 
+            if(json_end == -1) {
+                callback_("error", "Catastrophic Failure 002: Unexpected response. Check URL.")
+                return
+            }
+
+            //parse the json blob
+            let json;
+            try {
+                json = JSON.parse(data.substring(0, json_end)); 
+            }catch(e){
+                callback_("error",  "Catastrophic Failure 003: Unexpected response. Check URL.")
+                return
+            }
+
+            //find the default language of the first font in this collection.
+            fontCollection.defaultLanguage = json.fontpack.font_variations[0].default_language;
+
+            //grab the sample text data for this language
+            fontCollection.sampleText = json.textSampleData.textSamples[fontCollection.defaultLanguage]["list"]; 
+            
+            //Font collection name
+            fontCollection.name = json.fontpack.name
+
+            //Find the contributor who curated this collection:
+            fontCollection.designers.push({
+                "name": json.fontpack.contributor_credit,
+                "url": url_
+            })
+
+            //The primer is used for creating the font download URL
+            let primer = json.textSampleData.textSamplePrimers[Object.keys(json.textSampleData.textSamplePrimers)[0]];
+
+            //populate subfonts
+            for (let i = 0; i < json.fontpack.font_variations.length; i++) {
+                fontCollection.fonts.push({
+                    url: "https://use.typekit.net/pf/tk/" + json.fontpack.font_variations[i].opaque_id + "/" + json.fontpack.font_variations[i].fvd + "/m?primer=" + primer +  "&v=2&ec_token=3bb2a6e53c9684ffdc9a9bf71d5b2a620e68abb153386c46ebe547292f11a96176a59ec4f0c7aacfef2663c08018dc100eedf850c284fb72392ba910777487b32ba21c08cc8c33d00bda49e7e2cc90baff01835518dde43e2e8d5ebf7b76545fc2687ab10bc2b0911a141f3cf7f04f3cac438a135f", 
+                    name: json.fontpack.font_variations[i].full_display_name,
+                    style: json.fontpack.font_variations[i].variation_name, 
+                    familyName: json.fontpack.font_variations[i].family.name
+                });
+            }	
+
+            callback_("success", fontCollection)
+        })
+        .catch(function (error) {
+            callback_("error", error.message)
+        })
+    },
+
     getFontFamily: function(url_, callback_) {
         axios.get("https://api.allorigins.win/raw?url=" + url_)
         .then(function (response) {
@@ -18,7 +96,7 @@ var TypeRip = {
             //cut off everything before this point
             let data = response.data.substring(json_start)
 
-            //find the stuff directly after the json, and ues this as the anchor    
+            //find the stuff directly after the json, and use this as the anchor    
             let json_end = data.search('</script>') 
             if(json_end == -1) {
                 callback_("error", "Catastrophic Failure 002: Unexpected response. Check URL.")
