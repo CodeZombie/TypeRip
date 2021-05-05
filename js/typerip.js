@@ -107,7 +107,7 @@ var TypeRip = {
             //parse the json blob
             let json;
             try {
-                json = JSON.parse(data.substring(0, json_end)); 
+                json = JSON.parse(data.substring(0, json_end));
             }catch(e){
                 callback_("error",  "Catastrophic Failure 003: Unexpected response. Check URL.")
                 return
@@ -156,8 +156,35 @@ var TypeRip = {
             callback_("error", error.message)
         })
     },
+    downloadFonts: function(fonts_, zipFileName_){
+        fontList = []
+        if(Array.isArray(fonts_)){ //more than one font
+            fontList = fonts_;
+        }else{ //only one font
+            fontList = [fonts_];
+            zipFileName_ = fonts_.name + " " + fonts_.style
+        }
 
-    downloadFont: function(font_) {
+        //create a ZIP file
+        zip = new JSZip();
+
+        fontProcessCounter = 0;
+
+        for(var i = 0; i < fontList.length; i++) {
+            var fontData = this.getAndRepairFont(fontList[i], (font, fontMeta) =>{
+                zip.file(fontMeta.name + ".ttf", font);
+                fontProcessCounter++;
+                if(fontProcessCounter == fontList.length){
+                    zip.generateAsync({type:"blob"})
+                    .then(function(content) {
+                        saveAs(content, zipFileName_ + ".zip");
+                    });
+                }
+            });
+        }
+    },
+
+    getAndRepairFont: function(font_, callback_) {
         opentype.load(font_.url, function(error_, fontData_) {
             if (error_) {
                 return "Error: Font failed to load."
@@ -220,13 +247,14 @@ var TypeRip = {
 
                 //rebuild and download the font.
                 let newFont = new opentype.Font(newFontData)
-
+                callback_(newFont.toArrayBuffer(), font_);
+                /*
                 try{
                     newFont.download()
                 }catch(e){
                     console.log("ERROR: Failed to rebuild/rename font. Downloading old version...")
                     fontData_.download()
-                }
+                }*/
                 
             }
         })

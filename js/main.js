@@ -53,8 +53,8 @@ var typeRipVue = new Vue({
                 }
             })
         },
-        downloadFont: function(font_) {
-            TypeRip.downloadFont(font_)
+        downloadFonts: function(font_, zipFileName_) {
+            TypeRip.downloadFonts(font_, zipFileName_)
         },
         getFontsInChunks: function(chunkSize_) {
             output = []

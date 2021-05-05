@@ -36,7 +36,6 @@ h6 { font-size: 2.5rem; }
 
 header, .alertBox, .item, footer {
     margin-bottom: 3rem;
-
 }
 
 em{
@@ -50,6 +49,9 @@ header {
 }
 
 .alertBox {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
     background-color:#F5F5F5;
     border-radius: .5rem;
     padding:2rem;
@@ -133,19 +135,19 @@ header #url_input {
     align-items: center;
 }
 
-.item .lower .info_container {
+.info_container {
     flex-grow: 1;
     padding:1rem;
 }
-.item .lower .info_container .small {
+.info_container .small {
     font-size: 1.5rem;
     color:#888;
 }
-.item .lower .button_container {
+.button_container {
     padding:1rem;
 }
 
-.item .lower .button_container .button{
+.button_container .button{
     background: #fff;
     border-radius: .5rem;
     border: 1px solid #005DFF;
@@ -156,9 +158,10 @@ header #url_input {
     display:flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
-.item .lower .button_container .button:hover{
+.button_container .button:hover{
     background: #005DFF;
     color: #fff;
     cursor: pointer;
