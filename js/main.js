@@ -1,11 +1,11 @@
 Vue.component('font-panel', {
-    props: ['fontname', 'fontstyle', 'fonturl', 'sampletext'],
+    props: ['fontname', 'fontstyle', 'fonturl', 'sampletext', 'familyurl'],
     template: ' <div class="column four">\
                     <div class="item">\
                         <div class="upper"><p :style="{fontFamily : fontname}">{{sampletext}}</p></div>\
                         <div class="lower">\
                             <div class="info_container">\
-                                <p>{{fontname}}</p>\
+                                <a :href="familyurl"><p>{{fontname}}</p></a>\
                                 <p class="small">{{fontstyle}}</p>\
                             </div>\
                             <div class="button_container">\

@@ -60,10 +60,10 @@ header {
 .alertBox .subtext {
     color: #8B8B8B;
 }
-.alertBox .subtext a{
+.alertBox .subtext a, .item .lower .info_container a{
     color: #888;
 }
-.alertbox a[href]:hover {
+.alertbox a[href]:hover, .item .lower .info_container a:hover {
     color: #005DFF;
 }
 header #icon, header #url_submit_button {
