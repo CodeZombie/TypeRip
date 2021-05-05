@@ -11,6 +11,12 @@ The Adobe Font ripper. (Updated March 22nd, 2020)
 * Do not use any downloaded fonts for anything other than testing purposes. Think of it like a try-before-you-buy system. This tool merely saves a copy of what Adobe makes publicly available through their website, but this does not give you the legal right to use the fonts as if you have purchased a license. If you want to publish any work using these fonts, you _must_ purchase a license through adobe.
 
 ### Whats new?
+May 3, 2021:
+* Added the ability to read font collection URLs and download their contents as you would with a font family.
+* Added a "Download All" button to font families and collections, downloading a single zip of all the contents of the font pack.
+* Fonts now download as a ZIP archive.
+* Switched to a more consistent CORS proxy.
+
 March 22, 2020:
 * Cosmetic fixes
 * Removed all references to "TypeKit", as Adobe has renamed the service to "Adobe Fonts"
@@ -23,7 +29,7 @@ Oct 21, 2019:
 * New, cleaner and simpler user interface
 * Fonts are automatically repaired and renamed correctly
 
-![Screenshot #1](https://i.imgur.com/cAtH5qR.png)
+![Screenshot #1](https://i.imgur.com/5cyZTJ4.png)
 
 ### License
 typerip.js is released under the WTFPL (http://www.wtfpl.net/)
