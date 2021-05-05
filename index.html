@@ -31,8 +31,10 @@
                     <div class="column">
                         <div class="alertBox">
                             <template v-if="!fontIsActive">
-                                <h3>{{message.title}}</h3>
-                                <p class="subtext" v-html="message.text"></p><br/>
+                                <div class="info_container">
+                                    <h3>{{message.title}}</h3>
+                                    <p class="subtext" v-html="message.text"></p><br/>
+                                </div>
                             </template>
                             <template v-if="fontIsActive">
                                 <div class="info_container">

@@ -1,5 +1,8 @@
 var TypeRip = {
     handleRequest: function(url_, callback_){
+        if(!url_.toLowerCase().startsWith("http://") && !url_.toLowerCase().startsWith("https://")){
+            url_ = "http://" + url_;
+        }
         if(url_.indexOf("fonts.adobe.com/collections") != -1){
             this.getFontCollection(url_, callback_);
         }else{
@@ -17,9 +20,9 @@ var TypeRip = {
             }
 
             //search for the first part of the json
-            let json_start = response.data.search('{"fontpack":{"all_valid_slugs":'); 
+            let json_start = response.data.toString().search('{"fontpack":{"all_valid_slugs":'); 
 		    if(json_start == -1) {
-                callback_("error", "Catastrophic Failure 001:  Unexpected response. Check URL.")
+                callback_("error", "Unexpected response from server. You either mistyped the URL, or the CORS proxy is down.")
                 return
             }
 
@@ -88,9 +91,9 @@ var TypeRip = {
             }
 
             //search for the first part of the json
-            let json_start = response.data.search('{"family":{"slug":"'); 
+            let json_start = response.data.toString().search('{"family":{"slug":"'); 
 		    if(json_start == -1) {
-                callback_("error", "Catastrophic Failure 001:  Unexpected response. Check URL.")
+                callback_("error", "Unexpected response from server. You either mistyped the URL, or the CORS proxy is down.")
                 return
             }
 
