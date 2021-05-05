@@ -22,7 +22,7 @@ var typeRipVue = new Vue({
         urlInput: "",
         fontIsActive: false,
         fontFamily: {},
-        message: {visible: true, title: "Typerip", text: "<p>The Adobe Font ripper.</p><br><p>Enter a font family URL from <a href='https://fonts.adobe.com/'>Adobe Fonts</a> to begin.</p><p>All fonts belong to their respective owners.</p><br><p>Fork this project on <a href='https://github.com/CodeZombie/TypeRip'>github</a></p><p>Big thanks to <a href='https://opentype.js.org/'>OpenType.js</a> for their javascript font library."}
+        message: {visible: true, title: "Typerip", text: "<p>The Adobe Font ripper.</p><br><p>Enter a font family URL from <a href='https://fonts.adobe.com/'>Adobe Fonts</a> to begin.</p><p>By using this tool, you agree to not violate copyright law or licenses established by the font owners, foundries or Adobe. All fonts belong to their respective owners.</p><br><p>Fork this project on <a href='https://github.com/CodeZombie/TypeRip'>github</a></p><p>Big thanks to <a href='https://opentype.js.org/'>OpenType.js</a> for their javascript font library."}
     },
     methods: {
         showMessage: function(title_, text_) {

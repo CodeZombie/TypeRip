@@ -1,6 +1,6 @@
 var TypeRip = {
     getFontFamily: function(url_, callback_) {
-        axios.get("https://cors-anywhere.herokuapp.com/" + url_)
+        axios.get("https://api.allorigins.win/raw?url=" + url_)
         .then(function (response) {
             let fontFamily = {
                 name: "",
