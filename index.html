@@ -43,6 +43,9 @@
                                         by 
                                         <span v-for="(designer, key) in fontFamily.designers"><a v-bind:href="designer.url">{{designer.name}}</a><span v-if="key < fontFamily.designers.length -1">, </span></span>
                                     </p>
+                                    <br/>
+                                    <input type="checkbox" id="rawdlCheckbox" value="false" v-model="rawDownload" style="display:span;">
+                                    <label for="rawdlCheckbox">Download without processing</label>
                                 </div>
                                 <div class="button_container">
                                     <a class="button" v-on:click="downloadFonts(fontFamily.fonts, fontFamily.name)">Download All</a>
@@ -57,18 +60,19 @@
                 </div>
             </div>
         </article>
-    </div>
-    <footer>
-        <div class="grid">
-            <div class="row">
-                <div class="column six offset-three">
-                    <p>
-                        Created by <a href="http://badnoise.net">Jeremy C.</a> Released under the <a href="http://www.wtfpl.net/">WTFPL</a>. Fork this on <a href="https://github.com/CodeZombie/TypeRip">Github</a>.
-                    </p>
+        <footer>
+            <div class="grid">
+                <div class="row">
+                    <div class="column six offset-three">
+                        <p>
+                            Created by <a href="http://badnoise.net">Jeremy C.</a> Released under the <a href="http://www.wtfpl.net/">WTFPL</a>. Fork this on <a href="https://github.com/CodeZombie/TypeRip">Github</a>.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
+
     <script src="js/main.js"></script>
 </body>
 </html>
