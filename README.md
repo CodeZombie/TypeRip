@@ -1,12 +1,15 @@
 # TypeRip
-The Adobe Font ripper. (Updated March 22nd, 2020)
+The Adobe Font ripper.
 ## [Get It Here](http://codezombie.github.io/TypeRip/)
 
 ### How to use it
-  1. Enter an [Adobe Fonts](https://fonts.adobe.com/) family URL into the address bar, then press enter.
+  1. Enter an Adobe Fonts [font family](https://fonts.adobe.com/fonts) or [font collection](https://fonts.adobe.com/collections) URL into the address bar, then press enter.
   2. Browse the available fonts under this family, using the download button to save them to your machine.
   3. That's it.
  
+### Limitations
+Due to the way Adobe Fonts (formerly Typekit) dynamically subsets the font files available through their preview website, only the most basic usable subset of glyphs are available for download. It is theoretically possible to capture the entire set of font characters as the fonts.adobe.com website does this with its previews, however much of the code and API responsible for this behavior is obfuscated/proprietary/undocumented. This is currently an open research problem so if you have any information/insight, please contribute in the issues section.
+
 ### Terms
 * Do not use any downloaded fonts for anything other than testing purposes. Think of it like a try-before-you-buy system. This tool merely saves a copy of what Adobe makes publicly available through their website, but this does not give you the legal right to use the fonts as if you have purchased a license. If you want to publish any work using these fonts, you _must_ purchase a license through adobe.
 
@@ -33,6 +36,7 @@ Oct 21, 2019:
 * New, cleaner and simpler user interface
 * Fonts are automatically repaired and renamed correctly
 
+### Screenshot
 ![Screenshot #1](https://i.imgur.com/5cyZTJ4.png)
 
 ### License
