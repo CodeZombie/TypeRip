@@ -239,13 +239,14 @@ var TypeRip = {
                     
                     //create a structure of font data with fields from the parsed font.
                     let newFontData = {
+                        fontName: font_.name,
                         familyName: font_.familyName,
                         styleName: font_.style,
                         glyphs: rebuiltGlyphs
                     }
 
                     //extract as much available data out of the existing font data and copy it over to the new font:
-                    let optionalFontDataFields = ['defaultWidthX', 'nominalWidthX', 'unitsPerEm', 'ascender', 'descender' ]
+                    let optionalFontDataFields = ['defaultWidthX', 'nominalWidthX', 'unitsPerEm', 'ascender', 'descender', 'copyright', 'designers' ]
                     optionalFontDataFields.forEach(field => {
                         if(fontData_[field] != null) {
                             newFontData[field] = fontData_[field]
@@ -260,4 +261,3 @@ var TypeRip = {
         }
     }
 }
-
