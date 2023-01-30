@@ -143,7 +143,7 @@ var TypeRip = {
                     url: "https://use.typekit.net/pf/tk/" + json.family.fonts[i].family.web_id + "/" + json.family.fonts[i].font.web.fvd + "/a?unicode=AAAAAQAAAAEAAAAB&features=ALL&v=3&ec_token=3bb2a6e53c9684ffdc9a9bf71d5b2a620e68abb153386c46ebe547292f11a96176a59ec4f0c7aacfef2663c08018dc100eedf850c284fb72392ba910777487b32ba21c08cc8c33d00bda49e7e2cc90baff01835518dde43e2e8d5ebf7b76545fc2687ab10bc2b0911a141f3cf7f04f3cac438a135f", 
                     name: json.family.fonts[i].name,
                     style: json.family.fonts[i].variation_name, 
-                    familyName: fontFamily.name,
+                    familyName: json.family.fonts[i].preferred_family_name,
                     familyUrl: "https://fonts.adobe.com/fonts/" + json.family.slug
                 });
             }	
