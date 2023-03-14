@@ -13033,23 +13033,26 @@
 
 	        // OS X will complain if the names are empty, so we put a single space everywhere by default.
 	        this.names = {
-	            fontFamily: {en: options.familyName || ' '},
-	            fontSubfamily: {en: options.styleName || ' '},
+	            fontFamily: {en: options.familyName + ' ' + options.styleName || ''},
+	            fontSubfamily: {en: options.styleName || ''},
 	            fullName: {en: options.fullName || options.familyName + ' ' + options.styleName},
 	            // postScriptName may not contain any whitespace
 	            postScriptName: {en: options.postScriptName || (options.familyName + options.styleName).replace(/\s/g, '')},
-	            designer: {en: options.designer || ' '},
-	            designerURL: {en: options.designerURL || ' '},
-	            manufacturer: {en: options.manufacturer || ' '},
-	            manufacturerURL: {en: options.manufacturerURL || ' '},
-	            license: {en: options.license || ' '},
-	            licenseURL: {en: options.licenseURL || ' '},
-	            version: {en: options.version || 'Version 0.1'},
-	            description: {en: options.description || ' '},
-	            copyright: {en: options.copyright || ' '},
-	            trademark: {en: options.trademark || ' '}
+	            designer: {en: options.designer || ''},
+	            designerURL: {en: options.designerURL || ''},
+	            manufacturer: {en: options.manufacturer || ''},
+	            manufacturerURL: {en: options.manufacturerURL || ''},
+	            license: {en: options.license || ''},
+	            licenseURL: {en: options.licenseURL || ''},
+	            version: {en: options.version || 'Version 1.0'},
+	            description: {en: options.description || 'This typeface is downloaded using TypeRip (c) 2022. The downloaded file should be viewed as a preview and not as a full proof product.'},
+	            copyright: {en: options.copyright || 'TypeRip 2022 (c)'},
+	            trademark: {en: options.trademark || ''},
+	            preferredFamily: {en: options.familyName || ''},
+	            preferredSubfamily: {en: options.styleName || ''},
+	            uniqueID: {en: options.uniqueID || options.familyName +' '+ options.styleName}
 	        };
-	        this.unitsPerEm = options.unitsPerEm || 1000;
+	        this.unitsPerEm = options.unitsPerEm || 1024;
 	        this.ascender = options.ascender;
 	        this.descender = options.descender;
 	        this.createdTimestamp = options.createdTimestamp;
