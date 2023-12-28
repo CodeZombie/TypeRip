@@ -7070,7 +7070,8 @@
 	        yMin: globals.yMin,
 	        xMax: globals.xMax,
 	        yMax: globals.yMax,
-	        lowestRecPPEM: 3,
+	        lowestRecPPEM: font.tables.head.lowestRecPPEM || 3,
+	        macStyle: font.tables.head.macStyle || 0, // Windows uses this value to classify font styles https://learn.microsoft.com/en-us/typography/opentype/spec/head
 	        createdTimestamp: font.createdTimestamp
 	    });
 
@@ -13049,15 +13050,19 @@
 	            copyright: {en: options.copyright || ' '},
 	            trademark: {en: options.trademark || ' '}
 	        };
-	        this.unitsPerEm = options.unitsPerEm || 1000;
+	        this.unitsPerEm = options.unitsPerEm || 1024; // a power of 2 is recommended as this allows performance optimizations in some rasterizers. https://learn.microsoft.com/en-us/typography/opentype/spec/head
 	        this.ascender = options.ascender;
 	        this.descender = options.descender;
 	        this.createdTimestamp = options.createdTimestamp;
-	        this.tables = { os2: {
-	            usWeightClass: options.weightClass || this.usWeightClasses.MEDIUM,
-	            usWidthClass: options.widthClass || this.usWidthClasses.MEDIUM,
-	            fsSelection: options.fsSelection || this.fsSelectionValues.REGULAR
-	        } };
+					let tablesOs2 = options.tables.os2 || {
+						usWeightClass: options.weightClass || this.usWeightClasses.NORMAL,
+						usWidthClass: options.widthClass || this.usWidthClasses.NORMAL,
+						fsSelection: options.fsSelection || this.fsSelectionValues.REGULAR
+					}
+	        this.tables = { 
+						os2: tablesOs2,
+						head: options.tables.head || {}
+					};
 	    }
 
 	    this.supported = true; // Deprecated: parseBuffer will throw an error if font is not supported.

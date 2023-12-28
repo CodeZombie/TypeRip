@@ -245,7 +245,7 @@ var TypeRip = {
                     }
 
                     //extract as much available data out of the existing font data and copy it over to the new font:
-                    let optionalFontDataFields = ['defaultWidthX', 'nominalWidthX', 'unitsPerEm', 'ascender', 'descender' ]
+                    let optionalFontDataFields = ['defaultWidthX', 'nominalWidthX', 'unitsPerEm', 'ascender', 'descender', 'tables', 'names']
                     optionalFontDataFields.forEach(field => {
                         if(fontData_[field] != null) {
                             newFontData[field] = fontData_[field]
