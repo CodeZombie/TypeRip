@@ -1,78 +1,15 @@
-<!doctype <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TypeRip</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/hella.css" />
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
-    <script src="js/opentype.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="js/typerip.js"></script>
-    <link rel="icon" type="image/png" href="res/favicon.png">
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TypeRip</title>
 </head>
+
 <body>
-    <div id="typeripvue">
-        <header>
-            <div id="icon">Tr</div>
-            <input v-model="urlInput" v-on:keyup.enter="urlSubmitButtonPress" id="url_input" type="text" placeholder="Adobe Fonts font family URL" />
-            <div id="url_submit_button" v-on:click="urlSubmitButtonPress"><i class="icon ion-md-search"></i></div>
-        </header>
-        <article>
-            <div class="grid">
-                <div v-if="message.visible" class="row">
-                    <div class="column">
-                        <div class="alertBox">
-                            <template v-if="!fontIsActive">
-                                <div class="info_container">
-                                    <h3>{{message.title}}</h3>
-                                    <p class="subtext" v-html="message.text"></p><br/>
-                                </div>
-                            </template>
-                            <template v-if="fontIsActive">
-                                <div class="info_container">
-                                    <h3>{{fontFamily.name}}</h3>
-                                    <p class="subtext" v-if="fontFamily.designers.length > 0">
-                                        by 
-                                        <span v-for="(designer, key) in fontFamily.designers"><a v-bind:href="designer.url">{{designer.name}}</a><span v-if="key < fontFamily.designers.length -1">, </span></span>
-                                    </p>
-                                    <br/>
-                                    <input type="checkbox" id="rawdlCheckbox" value="false" v-model="rawDownload" style="display:span;">
-                                    <label for="rawdlCheckbox">Download without processing</label>
-                                </div>
-                                <div class="button_container">
-                                    <a class="button" v-on:click="downloadFonts(fontFamily.fonts, fontFamily.name)">Download All</a>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row" v-if="fontIsActive" v-for="(chunk, c_key) in getFontsInChunks(3)">
-                    <font-panel v-for="(font, f_key) in chunk" v-bind:key="(c_key * 3) + f_key" v-on:clickdownload="downloadFonts(font, fontFamily.name)" v-bind:fontname="font.name" v-bind:fontstyle="font.style" v-bind:fonturl="font.url" v-bind:sampletext="fontFamily.sampleText" v-bind:familyurl="font.familyUrl"></font-panel>
-                </div>
-            </div>
-        </article>
-        <footer>
-            <div class="grid">
-                <div class="row">
-                    <div class="column six offset-three">
-                        <p>
-                            Created by <a href="http://badnoise.net">Jeremy C.</a> Released under the <a href="http://www.wtfpl.net/">WTFPL</a>. Fork this on <a href="https://github.com/CodeZombie/TypeRip">Github</a>.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <script src="js/main.js"></script>
+  <div id="app"></div>
+  <script type="module" src="src/main.js"></script>
 </body>
+
 </html>
