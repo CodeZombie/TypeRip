@@ -14,7 +14,7 @@
 ### Whats new?
 
 January 7th, 2024:
-* Complete rewrite using Vite, Vue components and other ~modern javascript practices~.
+* Complete rewrite using Vite, Vue components and other _modern javascript practices_.
 * Removed all OpenType.js-based font rebuilding as this wasn't working well and is no longer necessary because:
 * We now have access to the full-featured font file in WOFF2 format with no missing glyphs or broken kerning or anything thanks to [research](https://github.com/CodeZombie/TypeRip/issues/27) by [Artellia](https://github.com/Artellia).
 * Fonts are converted automatically from WOFF2 to TTF format in the browser before downloading for ease-of-installation as Windows does not natively support WOFF2.
