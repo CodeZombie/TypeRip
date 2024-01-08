@@ -1,5 +1,6 @@
-# TypeRip
-The Adobe Font ripper.
+![TypeRip Logo](https://raw.githubusercontent.com/CodeZombie/TypeRip/master/src/assets/typerip_logo_small.png)
+### The [Adobe Fonts](https://fonts.adobe.com/) ripper.
+
 ## [Get It Here](http://codezombie.github.io/TypeRip/)
 
 ### How to use it
