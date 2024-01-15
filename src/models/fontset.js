@@ -7,4 +7,6 @@ export class FontSet {
         this.fonts = fonts
         this.sampletext = sample_text
     }
+
+    
 }

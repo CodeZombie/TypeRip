@@ -7,7 +7,9 @@
         <div class="lower">
             <div class="info_container">
                 <a :href="familyurl"><p>{{fontname}}</p></a>
-                <p class="small">{{fontstyle}}</p>
+                <p class="small"><i class="icon ion-md-people"></i> {{fontfamily}}</p>
+                <p class="small"><i class="icon ion-md-brush"></i> {{fontstyle}}</p>
+                <p class="small"><i class="icon ion-md-globe"></i> {{fontdefaultlanguage}}</p>
             </div>
             <div class="button_container">
                 <a class="button" v-on:click="download()"><i class="icon ion-md-arrow-down"></i></a>
@@ -28,7 +30,7 @@
 <script>
 export default {
     name: "FontBox",
-    props: ['fontname', 'fontstyle', 'fonturl', 'sampletext', 'familyurl'],
+    props: ['fontname', 'fontfamily', 'fontstyle', 'fonturl', 'sampletext', 'familyurl', 'fontdefaultlanguage'],
     emits: ['download'],
     methods: {
         download() {

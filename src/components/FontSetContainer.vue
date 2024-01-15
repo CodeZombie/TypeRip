@@ -16,7 +16,7 @@
         </div>   
     </div>
     <div class="row" v-for="(chunk, c_key) in getFontsInChunks(3)">
-        <FontBox v-for="(font, f_key) in chunk" v-bind:key="(c_key * 3) + f_key" v-on:download="download([font], font.name)" v-bind:fontname="font.name" v-bind:fontstyle="font.style" v-bind:fonturl="font.url" v-bind:sampletext="fontset.sampletext" v-bind:familyurl="font.familyUrl"></FontBox>
+        <FontBox v-for="(font, f_key) in chunk" v-bind:key="(c_key * 3) + f_key" v-on:download="download([font], font.name)" v-bind:fontfamily="font.familyName" v-bind:fontname="font.name" v-bind:fontstyle="font.style" v-bind:fonturl="TypeRip.getFontURL(font)" v-bind:fontdefaultlanguage="font.defaultLanguage" v-bind:sampletext="font.sampleText" v-bind:familyurl="font.familyUrl"></FontBox>
     </div>
 </template>
 
@@ -48,4 +48,5 @@ export default {
 
 <script setup>
 import FontBox from './FontBox.vue';
+import TypeRip from '../scripts/typerip.js'
 </script>
