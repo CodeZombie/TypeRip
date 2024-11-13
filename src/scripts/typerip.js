@@ -18,9 +18,8 @@ class Table {
         //this.data = font_dataview.slice(this.offset, this.offset + this.length);
     }
 
-
     updateChecksum(font_dataview){
-        var new_checksum = sfnt_module.computeCheckSum([].slice.call(new Uint8Array(font_dataview.buffer)).slice(this.offset, this.offset + this.length));
+        var new_checksum = sfnt_module.computeCheckSum(Array.from(new Uint8Array(font_dataview.buffer.slice(this.offset, this.offset + this.length))));
         font_dataview.setUint32(this.table_directory_offset + 4, new_checksum);
     }
 
@@ -414,6 +413,7 @@ export default class TypeRip {
         // Set the head table's `checkSumAdjustment` field to 0.
         var head_table = this.getTable(font_dataview, 'head');
         font_dataview.setUint32(head_table.offset + 8, 0);
+        head_table.updateChecksum(font_dataview);
 
         // Calculate and update the entire font's checkSumAdjustment
         var font_data_array = [].slice.call(new Uint8Array(font_dataview.buffer));
