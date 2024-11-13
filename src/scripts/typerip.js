@@ -641,6 +641,8 @@ Palast Variable looks bad in the Windows Font Installer compared to the raw, unr
 Code needs to be cleaned up a lot.
 Macstyle Bold Bit not necessarily getting set to bold when a font is bold. eg https://fonts.adobe.com/fonts/adso
 
+`Henri` is reporting that name and post tables are overlapping eachother. Investigate.
+
 Commenting out the lines that actually rename the properties in the Name table actually causes IvoPresto to work. However, this does not fix Adso Bold.
 I wish the windows font installer would tell you ~why~ it thinks a font is invalid, because these 'broken' fonts seem to work literally everywhere else.
 
