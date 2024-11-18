@@ -32,7 +32,7 @@ export default class TypeRip {
     }
 
     static getFontCollection(url_, callback_){
-        axios.get("https://api.allorigins.win/raw?url=" + url_)
+        axios.get("https://corsproxy.io/?" + url_)
         .then((response) => {
             let fontCollection = {
                 name: "",
@@ -100,7 +100,7 @@ export default class TypeRip {
     }
 
     static getFontFamily(url_, callback_) {
-        axios.get("https://api.allorigins.win/raw?url=" + url_)
+        axios.get("https://corsproxy.io/?" + url_)
         .then((response) => {
             let fontFamily = {
                 name: "",
