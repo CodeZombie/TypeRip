@@ -3,6 +3,11 @@ import saveAs from 'file-saver';
 import 'https://unpkg.com/wawoff2@2.0.1/build/decompress_binding.js';
 
 export default class TypeRip {
+    static CORSProxies = [
+        "https://corsproxy.io/?",
+        "https://api.allorigins.win/raw?url="
+    ];
+
     static URLTypes = Object.freeze({
         Invalid: 0,
         FontFamily: 1,
@@ -31,8 +36,50 @@ export default class TypeRip {
         }
     }
 
+
+
+    static getNetworkResource(url_) {
+        let last_working_cors_proxy_index = localStorage.getItem("cors_proxy_index")
+        if (last_working_cors_proxy_index == null || last_working_cors_proxy_index > this.CORSProxies.length) {
+            last_working_cors_proxy_index = 0
+        }
+        let re_ordered_cors_proxies = [...this.CORSProxies]
+        re_ordered_cors_proxies.splice(last_working_cors_proxy_index, 1)
+        re_ordered_cors_proxies.unshift(this.CORSProxies[last_working_cors_proxy_index])
+
+        function try_all_proxies_until_success(proxy_index, proxy_list){
+            let proxy = re_ordered_cors_proxies[proxy_index];
+            return new Promise(function(resolve, reject) {
+                axios.get(proxy + url_)
+                .then((response) => {
+                    localStorage.setItem("cors_proxy_index", TypeRip.CORSProxies.indexOf(proxy));
+                    resolve(response);
+                })
+                .catch((error) => {
+                    if (error.response){
+                        if (error.response.status == 404) {
+                            console.log("404")
+                            return reject(error);
+                        }
+                    }
+                    if (proxy_index + 1 >= proxy_list.length) {
+                        reject({message: "All CORS Proxies failed. Check your internet connection and try again."})
+                    }else {
+                        try_all_proxies_until_success(proxy_index + 1, proxy_list)
+                        .then(resolve)
+                        .catch(reject);
+                    }
+                });
+            })
+        }
+
+        return try_all_proxies_until_success(0, re_ordered_cors_proxies)
+    }
+
+    //TODO: refactor this so that it returns a Promise instead of manually specifying a 'callback_' method.
+    // then we can have our promise provide a "resolve" and "reject" interface instead of using this stupid `ResponseTypes` enum system
     static getFontCollection(url_, callback_){
-        axios.get("https://corsproxy.io/?" + url_)
+        this.getNetworkResource(url_)
         .then((response) => {
             let fontCollection = {
                 name: "",
@@ -100,7 +147,7 @@ export default class TypeRip {
     }
 
     static getFontFamily(url_, callback_) {
-        axios.get("https://corsproxy.io/?" + url_)
+        this.getNetworkResource(url_)
         .then((response) => {
             let fontFamily = {
                 name: "",
