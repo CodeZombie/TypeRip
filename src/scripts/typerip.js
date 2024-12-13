@@ -4,9 +4,17 @@ import 'https://unpkg.com/wawoff2@2.0.1/build/decompress_binding.js';
 
 export default class TypeRip {
     static CORSProxies = [
-        "https://corsproxy.io/?",
-        "https://api.allorigins.win/raw?url="
+        "https://thingproxy.freeboard.io/fetch/", // Returns 404 when Adobe Fonts sends a 404
+        "https://api.allorigins.win/raw?url=", // Returns a 200 when Adobe Fonts sends a 404
+        "https://api.codetabs.com/v1/proxy/?quest=", // Returns a 200 when Adobe Fonts sends a 404
+        "https://corsproxy.io/?", // Adobe Fonts sends a 404 through this one even when the URL is valid. Did Adobe blacklist this one?
     ];
+
+    static Messages = Object.freeze({
+        RequestFailed: "Check that the Adobe Fonts URL is correct, then check your internet connection, and then try again.",
+        MalformedFontResponse: "Unexpected Adobe Fonts page structure. Please check your URL and try again, otherwise open an issue on GitHub.",
+        AllProxiesFailed: "All CORS proxies failed. Please check your internet connection, otherwise open an issue on GitHub."
+    })
 
     static URLTypes = Object.freeze({
         Invalid: 0,
@@ -36,13 +44,12 @@ export default class TypeRip {
         }
     }
 
-
-
     static getNetworkResource(url_) {
-        let last_working_cors_proxy_index = localStorage.getItem("cors_proxy_index")
-        if (last_working_cors_proxy_index == null || last_working_cors_proxy_index > this.CORSProxies.length) {
+        let last_working_cors_proxy_index = parseInt(localStorage.getItem("cors_proxy_index"))
+        if (last_working_cors_proxy_index == null || last_working_cors_proxy_index >= this.CORSProxies.length) {
             last_working_cors_proxy_index = 0
         }
+
         let re_ordered_cors_proxies = [...this.CORSProxies]
         re_ordered_cors_proxies.splice(last_working_cors_proxy_index, 1)
         re_ordered_cors_proxies.unshift(this.CORSProxies[last_working_cors_proxy_index])
@@ -53,17 +60,22 @@ export default class TypeRip {
                 axios.get(proxy + url_)
                 .then((response) => {
                     localStorage.setItem("cors_proxy_index", TypeRip.CORSProxies.indexOf(proxy));
+                    console.log("Succesful proxy: " + proxy)
                     resolve(response);
                 })
                 .catch((error) => {
-                    if (error.response){
-                        if (error.response.status == 404) {
-                            console.log("404")
-                            return reject(error);
-                        }
-                    }
+                    
+                    // Don't check for 404 at this stage because some CORS proxies return a 404,
+                    // even if the Adobe Fonts URL is valid.
+
+                    // if (error.response){
+                    //     if (error.response.status == 404) {
+                    //         return reject(error);
+                    //     }
+                    // }
+
                     if (proxy_index + 1 >= proxy_list.length) {
-                        reject({message: "All CORS Proxies failed. Check your internet connection and try again."})
+                        reject({message: TypeRip.Messages.AllProxiesFailed + " (#007)"})
                     }else {
                         try_all_proxies_until_success(proxy_index + 1, proxy_list)
                         .then(resolve)
@@ -90,7 +102,13 @@ export default class TypeRip {
             //search for the first part of the json
             let json_start = response.data.toString().search('{"fontpack":{"all_valid_slugs":'); 
 		    if(json_start == -1) {
-                callback_(this.ResponseTypes.Error, "Unexpected response from server. You either mistyped the URL, or the CORS proxy is down.")
+                callback_(this.ResponseTypes.Error, TypeRip.Messages.RequestFailed + " (#001)")
+                
+                // Because (as we've seen with corsproxy.io) it's possible for Adobe to return a 404 page to a proxy 
+                //      when given a valid url, we have to consider that cors proxy can be blacklisted.
+                // For this reaosn, we want to increment the cors_proxy_index so when the user tries agian, TypeRip will
+                //      attempt the network request with a different proxy.
+                localStorage.setItem("cors_proxy_index", parseInt(localStorage.getItem("cors_proxy_index")) + 1)
                 return
             }
 
@@ -100,7 +118,7 @@ export default class TypeRip {
             //find the stuff directly after the json, and use this as the anchor    
             let json_end = data.search('</script>') 
             if(json_end == -1) {
-                callback_(this.ResponseTypes.Error, "Catastrophic Failure 002: Unexpected response. Check URL.")
+                callback_(this.ResponseTypes.Error, TypeRip.Messages.MalformedFontResponse + " (#002)")
                 return
             }
 
@@ -109,7 +127,7 @@ export default class TypeRip {
             try {
                 json = JSON.parse(data.substring(0, json_end)); 
             }catch(e){
-                callback_(this.ResponseTypes.Error,  "Catastrophic Failure 003: Unexpected response. Check URL.")
+                callback_(this.ResponseTypes.Error,  TypeRip.Messages.MalformedFontResponse + " (#003)")
                 return
             }
 
@@ -158,7 +176,13 @@ export default class TypeRip {
             //search for the first part of the json
             let json_start = response.data.toString().search('{"family":{"slug":"'); 
 		    if(json_start == -1) {
-                callback_(this.ResponseTypes.Error, "Unexpected response from server. You either mistyped the URL, or the CORS proxy is down.")
+                callback_(this.ResponseTypes.Error, TypeRip.Messages.RequestFailed + " (#004)")
+                
+                // Because (as we've seen with corsproxy.io) it's possible for Adobe to return a 404 page to a proxy 
+                //      when given a valid url, we have to consider that cors proxy can be blacklisted.
+                // For this reaosn, we want to increment the cors_proxy_index so when the user tries agian, TypeRip will
+                //      attempt the network request with a different proxy.
+                localStorage.setItem("cors_proxy_index", parseInt(localStorage.getItem("cors_proxy_index")) + 1)
                 return
             }
 
@@ -168,7 +192,7 @@ export default class TypeRip {
             //find the stuff directly after the json, and use this as the anchor    
             let json_end = data.search('</script>') 
             if(json_end == -1) {
-                callback_(this.ResponseTypes.Error, "Catastrophic Failure 002: Unexpected response. Check URL.")
+                callback_(this.ResponseTypes.Error, TypeRip.Messages.MalformedFontResponse + " (#005)")
                 return
             }
 
@@ -177,7 +201,7 @@ export default class TypeRip {
             try {
                 json = JSON.parse(data.substring(0, json_end));
             }catch(e){
-                callback_(this.ResponseTypes.Error,  "Catastrophic Failure 003: Unexpected response. Check URL.")
+                callback_(this.ResponseTypes.Error,  TypeRip.Messages.MalformedFontResponse + " (#006)")
                 return
             }
 
